@@ -16,10 +16,13 @@ class MainRouter: Router {
   func destination(for route: Route) -> some View {
     switch route {
     case .home:
-      let viewModel = HomeViewModel(
-        deps: .init(collexionService: dependencies.collexionService)
+      let viewModel = ObservedObject(
+        wrappedValue: HomeViewModel(
+          deps: .init(collexionService: self.dependencies.collexionService)
+        )
       )
-      HomeView(viewModel: viewModel, router: HomeRouter())
+      let router = HomeRouter(viewModel: viewModel)
+      HomeView(viewModel: viewModel, router: router)
     }
   }
 }

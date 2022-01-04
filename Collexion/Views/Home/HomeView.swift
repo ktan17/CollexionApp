@@ -13,9 +13,12 @@ struct HomeView: View {
   
   private enum Constant {
     static let title = "Your Collexion"
+    static let addWordImageName = "square.and.pencil"
   }
   
-  @StateObject private var viewModel: HomeViewModel
+  // MARK: - Properties
+  
+  @ObservedObject private var viewModel: HomeViewModel
   private let router: HomeRouter
   
   var body: some View {
@@ -46,7 +49,7 @@ struct HomeView: View {
         Button(
           action: viewModel.addWordAction,
           label: {
-            Image(systemName: "square.and.pencil")
+            Image(systemName: Constant.addWordImageName)
           }
         )
       }
@@ -56,8 +59,10 @@ struct HomeView: View {
     }
   }
   
-  init(viewModel: HomeViewModel, router: HomeRouter) {
-    _viewModel = StateObject(wrappedValue: viewModel)
+  // MARK: - Initializers
+  
+  init(viewModel: ObservedObject<HomeViewModel>, router: HomeRouter) {
+    _viewModel = viewModel
     self.router = router
     
     UINavigationBar.appearance().largeTitleTextAttributes = [
@@ -71,11 +76,14 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
-    HomeView(
-      viewModel: .init(
+    let viewModel = ObservedObject(
+      wrappedValue: HomeViewModel(
         deps: .init(collexionService: CollexionService())
-      ),
-      router: .init()
+      )
+    )
+    HomeView(
+      viewModel: viewModel,
+      router: .init(viewModel: viewModel)
     )
       .previewDevice("iPhone 13")
   }

@@ -22,6 +22,8 @@ struct EditWordView: View {
     static let partOfSpeechTitle = "Part of Speech"
   }
   
+  // MARK: - Properties
+  
   @StateObject private var viewModel: EditWordViewModel
   @FocusState private var isFocused: Bool
   
@@ -39,10 +41,9 @@ struct EditWordView: View {
           .disableAutocorrection(true)
           .padding(.top, theme.smallPadding)
           .focused($isFocused)
-          .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-              self.isFocused = true
-            }
+          .onAppear(perform: viewModel.onAppear)
+          .onReceive(viewModel.$isFocused) { focused in
+            isFocused = focused
           }
           ExpandingTextView(
             placeholder: Constant.Definition.placeholder,
@@ -65,19 +66,21 @@ struct EditWordView: View {
       }
       .navigationTitle(Constant.navigationTitle)
       .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .cancellationAction) {
+          Button(action: viewModel.cancelAction, label: { Text("Cancel") })
+        }
+        ToolbarItem(placement: .confirmationAction) {
+          Button(action: {}, label: { Text("Add") })
+        }
+      }
     }
   }
+  
+  // MARK: - Initializers
   
   init(viewModel: EditWordViewModel) {
     _viewModel = StateObject(wrappedValue: viewModel)
   }
   
-}
-
-struct EditWordView_Previews: PreviewProvider {
-  static var previews: some View {
-    let viewModel = EditWordViewModel(deps: .init())
-    EditWordView(viewModel: viewModel)
-      .previewDevice("iPhone 13")
-  }
 }
