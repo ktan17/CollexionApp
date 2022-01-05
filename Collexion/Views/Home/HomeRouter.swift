@@ -31,9 +31,12 @@ class HomeRouter: Router {
   func destination(for route: Route) -> some View {
     switch route {
     case .addWord:
-      let viewModel = EditWordViewModel(
-        deps: .init(
-          isPresented: $viewModel.shouldShowEditor
+      let viewModel = ObservedObject(
+        wrappedValue: EditWordViewModel(
+          deps: .init(
+            isPresented: $viewModel.shouldShowEditor,
+            collexionService: dependencies.collexionService
+          )
         )
       )
       EditWordView(viewModel: viewModel)

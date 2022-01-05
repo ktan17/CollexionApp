@@ -44,9 +44,16 @@ class HomeViewModel: ObservableObject {
     .store(in: &cancellables)
     
     Task { [weak self] in
-      for await words in deps.collexionService.words {
-        self?.words = words
-      }
+      await self?.bindWords(to: await deps.collexionService.words)
+    }
+  }
+  
+  // MARK: - Helper functions
+  
+  @MainActor
+  private func bindWords(to stream: AsyncStream<[Word]>) async {
+    for await words in stream {
+      self.words = words
     }
   }
   

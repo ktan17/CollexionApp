@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PartOfSpeech: String, CaseIterable, Identifiable {
+enum PartOfSpeech: String, CaseIterable, Identifiable, Codable {
   case noun
   case verb
   case adjective
@@ -31,7 +31,7 @@ enum PartOfSpeech: String, CaseIterable, Identifiable {
   }
 }
 
-struct Word: Identifiable {
+struct Word: Identifiable, Codable {
   var id: String
   var title: String
   var definition: String

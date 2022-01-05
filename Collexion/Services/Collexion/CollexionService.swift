@@ -8,12 +8,31 @@
 import Foundation
 
 actor CollexionService: CollexionServiceProtocol {
-  let words: AsyncStream<[Word]> = AsyncStream { continuation in
-    continuation.yield([
-      .init(id: "1", title: "feces", definition: "poo", partOfSpeech: .noun, timestamp: .now),
-      .init(id: "2", title: "apple", definition: "A fruit that is delicious and nutritious", partOfSpeech: .noun, timestamp: .now),
-      .init(id: "3", title: "intrepid", definition: "Characterized by resolute fearlessness, fortitude, and endurance", partOfSpeech: .adjective, timestamp: .now)
-    ])
-    continuation.finish()
+  
+  // MARK: - Constant
+  
+  private enum Constant {
+    static let defaultsKey = "com.ktan17.words"
+  }
+  
+  var words: AsyncStream<[Word]> {
+    get async { wordsSubject.stream }
+  }
+  private let wordsSubject = AsyncSubject<[Word]>(value: [])
+  
+  init() {
+    Task { [wordsSubject] in
+      // Load words from User Defaults
+      if let object = UserDefaults.standard.object(forKey: Constant.defaultsKey),
+         let data = object as? Data,
+         let words = try? PropertyListDecoder().decode([Word].self, from: data) {
+        await wordsSubject.send(words)
+      }
+    }
+  }
+  
+  func add(word: Word) async {
+    let currentValue = await wordsSubject.currentValue
+    await wordsSubject.send(currentValue + [word])
   }
 }

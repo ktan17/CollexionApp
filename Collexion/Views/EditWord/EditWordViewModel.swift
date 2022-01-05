@@ -25,6 +25,7 @@ class EditWordViewModel: ObservableObject {
     let definition: String = ""
     let partOfSpeech: PartOfSpeech = .noun
     let isPresented: Binding<Bool>
+    let collexionService: CollexionServiceProtocol
   }
   
   // MARK: - Outputs
@@ -35,6 +36,7 @@ class EditWordViewModel: ObservableObject {
   @Published var isFocused = false
   let onAppear: () -> Void
   let cancelAction: () -> Void
+  let addAction: () -> Void
   let titleValidator: (String) -> String?
   let definitionValidator: (String) -> String?
   
@@ -53,12 +55,12 @@ class EditWordViewModel: ObservableObject {
     
     // Need to use a relay because of a circular dependency between
     // onAppear and self
-    let relay = PassthroughSubject<Void, Never>()
+    let appearRelay = PassthroughSubject<Void, Never>()
     onAppear = {
-      relay.send()
+      appearRelay.send()
     }
     defer {
-      relay
+      appearRelay
         .first()
         .sink { [weak self] in
           DispatchQueue.main.asyncAfter(deadline: .now() + Constant.focusDelay) { [weak self] in
@@ -70,6 +72,30 @@ class EditWordViewModel: ObservableObject {
     
     cancelAction = {
       deps.isPresented.wrappedValue = false
+    }
+    
+    let addRelay = PassthroughSubject<Void, Never>()
+    addAction = {
+      addRelay.send()
+    }
+    defer {
+      addRelay
+        .first()
+        .sink { [weak self] in
+          guard let self = self else { return }
+          let newWord = Word(
+            id: UUID().uuidString,
+            title: self.title,
+            definition: self.definition,
+            partOfSpeech: self.partOfSpeech,
+            timestamp: .now
+          )
+          Task { [weak self, deps] in
+            await deps.collexionService.add(word: newWord)
+            await self?.dismiss()
+          }
+        }
+        .store(in: &cancellables)
     }
     
     titleValidator = { candidate in
@@ -89,6 +115,13 @@ class EditWordViewModel: ObservableObject {
       }
       return nil
     }
+  }
+  
+  // MARK: - Helper functions
+  
+  @MainActor
+  private func dismiss() {
+    deps.isPresented.wrappedValue = false
   }
   
 }

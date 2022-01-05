@@ -24,7 +24,7 @@ struct EditWordView: View {
   
   // MARK: - Properties
   
-  @StateObject private var viewModel: EditWordViewModel
+  @ObservedObject private var viewModel: EditWordViewModel
   @FocusState private var isFocused: Bool
   
   var body: some View {
@@ -71,7 +71,7 @@ struct EditWordView: View {
           Button(action: viewModel.cancelAction, label: { Text("Cancel") })
         }
         ToolbarItem(placement: .confirmationAction) {
-          Button(action: {}, label: { Text("Add") })
+          Button(action: viewModel.addAction, label: { Text("Add") })
         }
       }
     }
@@ -79,8 +79,8 @@ struct EditWordView: View {
   
   // MARK: - Initializers
   
-  init(viewModel: EditWordViewModel) {
-    _viewModel = StateObject(wrappedValue: viewModel)
+  init(viewModel: ObservedObject<EditWordViewModel>) {
+    _viewModel = viewModel
   }
   
 }

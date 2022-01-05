@@ -32,6 +32,8 @@
 		44E138BC2780EC1000022B72 /* EditWordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138BB2780EC1000022B72 /* EditWordViewModel.swift */; };
 		44E138BE2780F5A500022B72 /* ExpandingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138BD2780F5A500022B72 /* ExpandingTextView.swift */; };
 		44E138C0278163AB00022B72 /* Bitter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44E138BF278163AB00022B72 /* Bitter-Bold.ttf */; };
+		44E138C22785474100022B72 /* AsyncStream+Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138C12785474100022B72 /* AsyncStream+Pipe.swift */; };
+		44E138C42785514700022B72 /* AsyncRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138C32785514700022B72 /* AsyncRelay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,8 @@
 		44E138BB2780EC1000022B72 /* EditWordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWordViewModel.swift; sourceTree = "<group>"; };
 		44E138BD2780F5A500022B72 /* ExpandingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingTextView.swift; sourceTree = "<group>"; };
 		44E138BF278163AB00022B72 /* Bitter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bitter-Bold.ttf"; sourceTree = "<group>"; };
+		44E138C12785474100022B72 /* AsyncStream+Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsyncStream+Pipe.swift"; sourceTree = "<group>"; };
+		44E138C32785514700022B72 /* AsyncRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRelay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +236,8 @@
 			isa = PBXGroup;
 			children = (
 				44E138A6277FA3A400022B72 /* View+Theme.swift */,
+				44E138C12785474100022B72 /* AsyncStream+Pipe.swift */,
+				44E138C32785514700022B72 /* AsyncRelay.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -406,10 +412,12 @@
 				44E138BC2780EC1000022B72 /* EditWordViewModel.swift in Sources */,
 				44E138AE277FC15400022B72 /* CollexionServiceProtocol.swift in Sources */,
 				44E138A7277FA3A400022B72 /* View+Theme.swift in Sources */,
+				44E138C22785474100022B72 /* AsyncStream+Pipe.swift in Sources */,
 				44E13868277A67D900022B72 /* MainTabView.swift in Sources */,
 				44E13898277E7C8400022B72 /* HomeViewModel.swift in Sources */,
 				44E13866277A67D900022B72 /* CollexionApp.swift in Sources */,
 				44E138AB277FC13B00022B72 /* CollexionService.swift in Sources */,
+				44E138C42785514700022B72 /* AsyncRelay.swift in Sources */,
 				44E138B42780358600022B72 /* MainRouter.swift in Sources */,
 				44E138B12780336300022B72 /* HomeRouter.swift in Sources */,
 				44E138B8278039AE00022B72 /* Router.swift in Sources */,
