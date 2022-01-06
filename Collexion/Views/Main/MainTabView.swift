@@ -13,10 +13,8 @@ struct MainTabView: View {
   var body: some View {
     TabView {
       router.destination(for: .home)
-        .font(.headline)
         .tabItem {
           Image(systemName: "house.fill")
-          Text("Home")
         }
     }
   }

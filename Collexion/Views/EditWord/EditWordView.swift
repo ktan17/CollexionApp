@@ -58,7 +58,7 @@ struct EditWordView: View {
           Picker(Constant.partOfSpeechTitle, selection: $viewModel.partOfSpeech) {
             ForEach(PartOfSpeech.allCases) { partOfSpeech in
               Text(partOfSpeech.rawValue)
-                .tag(partOfSpeech)
+                .tag(partOfSpeech as PartOfSpeech?)
                 .themedFont(.body)
             }
           }
@@ -79,6 +79,7 @@ struct EditWordView: View {
             action: viewModel.addAction,
             label: { Text(Constant.addTitle) }
           )
+          .disabled(viewModel.isAddButtonDisabled)
         }
       }
       .alert(

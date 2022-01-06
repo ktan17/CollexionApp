@@ -23,7 +23,7 @@ class EditWordViewModel: ObservableObject {
   struct Deps {
     let title: String = ""
     let definition: String = ""
-    let partOfSpeech: PartOfSpeech = .noun
+    let partOfSpeech: PartOfSpeech? = nil
     let isPresented: Binding<Bool>
     let collexionService: CollexionServiceProtocol
   }
@@ -32,8 +32,9 @@ class EditWordViewModel: ObservableObject {
   
   @Published var title: String
   @Published var definition: String
-  @Published var partOfSpeech: PartOfSpeech
+  @Published var partOfSpeech: PartOfSpeech?
   @Published var isFocused = false
+  @Published var isAddButtonDisabled = true
   @Published var isUploading = false
   @Published var isPresentingAlert = false
   @Published var uploadError: Error?
@@ -57,6 +58,8 @@ class EditWordViewModel: ObservableObject {
     self.definition = deps.definition
     self.partOfSpeech = deps.partOfSpeech
     
+    // Text validation logic
+    
     titleValidator = { candidate in
       let trimmed = candidate.trimmingCharacters(in: .whitespacesAndNewlines)
       if trimmed.count > Constant.titleCharacterLimit {
@@ -75,6 +78,8 @@ class EditWordViewModel: ObservableObject {
       return nil
     }
     
+    // Actions
+    
     onAppear = { [weak self] in
       Task { [weak self] in
         try? await Task.sleep(nanoseconds: Constant.focusDelayNanoseconds)
@@ -88,31 +93,30 @@ class EditWordViewModel: ObservableObject {
       deps.isPresented.wrappedValue = false
     }
     
+    let uploadStateSubject = PassthroughSubject<UploadState, Never>()
     addAction = { [weak self] in
-      guard let self = self else { return }
-      self.isUploading = true
+      guard let self = self,
+            let partOfSpeech = self.partOfSpeech else {
+        return
+      }
+      uploadStateSubject.send(.uploading)
       
       let newWord = Word(
         id: UUID().uuidString,
         title: self.title,
         definition: self.definition,
-        partOfSpeech: self.partOfSpeech,
+        partOfSpeech: partOfSpeech,
         timestamp: .now
       )
-      Task { [weak self, deps] in
-        guard let self = self else { return }
+      Task { [deps] in
         do {
           try await deps.collexionService.add(word: newWord)
+          uploadStateSubject.send(.idle)
           await MainActor.run {
-            self.isUploading = false
             deps.isPresented.wrappedValue = false
           }
         } catch {
-          await MainActor.run {
-            self.isUploading = false
-            self.isPresentingAlert = true
-            self.uploadError = error
-          }
+          uploadStateSubject.send(.failed(error: error))
         }
       }
     }
@@ -120,6 +124,35 @@ class EditWordViewModel: ObservableObject {
     dismissAlertAction = { [weak self] in
       self?.isPresentingAlert = false
     }
+    
+    // State drivers
+    
+    uploadStateSubject
+      .merge(with: Just(.idle))  // startWith
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] uploadState in
+        switch uploadState {
+        case .idle:
+          self?.isUploading = false
+          self?.uploadError = nil
+        case .uploading:
+          self?.isUploading = true
+        case let .failed(error):
+          self?.isUploading = false
+          self?.uploadError = error
+          self?.isPresentingAlert = true
+        }
+      }
+      .store(in: &cancellables)
+    
+    $title
+      .combineLatest($definition, $partOfSpeech)
+      .sink { [weak self] title, definition, partOfSpeech in
+        self?.isAddButtonDisabled = (
+          title.isEmpty || definition.isEmpty || partOfSpeech == nil
+        )
+      }
+      .store(in: &cancellables)
   }
   
 }
