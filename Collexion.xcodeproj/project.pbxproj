@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4418F32C27866F7F00E0692F /* UploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418F32B27866F7F00E0692F /* UploadState.swift */; };
 		44E13866277A67D900022B72 /* CollexionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E13865277A67D900022B72 /* CollexionApp.swift */; };
 		44E13868277A67D900022B72 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E13867277A67D900022B72 /* MainTabView.swift */; };
 		44E1386A277A67D900022B72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44E13869277A67D900022B72 /* Assets.xcassets */; };
@@ -32,7 +31,6 @@
 		44E138BA2780EC0700022B72 /* EditWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138B92780EC0700022B72 /* EditWordView.swift */; };
 		44E138BC2780EC1000022B72 /* EditWordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138BB2780EC1000022B72 /* EditWordViewModel.swift */; };
 		44E138BE2780F5A500022B72 /* ExpandingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138BD2780F5A500022B72 /* ExpandingTextView.swift */; };
-		44E138C0278163AB00022B72 /* Bitter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44E138BF278163AB00022B72 /* Bitter-Bold.ttf */; };
 		44E138C22785474100022B72 /* AsyncStream+Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138C12785474100022B72 /* AsyncStream+Pipe.swift */; };
 		44E138C42785514700022B72 /* AsyncRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E138C32785514700022B72 /* AsyncRelay.swift */; };
 /* End PBXBuildFile section */
@@ -55,7 +53,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4418F32B27866F7F00E0692F /* UploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadState.swift; sourceTree = "<group>"; };
 		44E13862277A67D900022B72 /* Collexion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Collexion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44E13865277A67D900022B72 /* CollexionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollexionApp.swift; sourceTree = "<group>"; };
 		44E13867277A67D900022B72 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -84,7 +81,6 @@
 		44E138B92780EC0700022B72 /* EditWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWordView.swift; sourceTree = "<group>"; };
 		44E138BB2780EC1000022B72 /* EditWordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWordViewModel.swift; sourceTree = "<group>"; };
 		44E138BD2780F5A500022B72 /* ExpandingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingTextView.swift; sourceTree = "<group>"; };
-		44E138BF278163AB00022B72 /* Bitter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bitter-Bold.ttf"; sourceTree = "<group>"; };
 		44E138C12785474100022B72 /* AsyncStream+Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsyncStream+Pipe.swift"; sourceTree = "<group>"; };
 		44E138C32785514700022B72 /* AsyncRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRelay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,7 +215,6 @@
 				44E1389A277E8F3500022B72 /* LibreBaskerville-Bold.ttf */,
 				44E1389B277E8F3500022B72 /* LibreBaskerville-Italic.ttf */,
 				44E1389C277E8F3500022B72 /* LibreBaskerville-Regular.ttf */,
-				44E138BF278163AB00022B72 /* Bitter-Bold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -230,7 +225,6 @@
 				44E138A8277FA40900022B72 /* ThemedFont.swift */,
 				44E138B7278039AE00022B72 /* Router.swift */,
 				44E138BD2780F5A500022B72 /* ExpandingTextView.swift */,
-				4418F32B27866F7F00E0692F /* UploadState.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -381,7 +375,6 @@
 				44E1386A277A67D900022B72 /* Assets.xcassets in Resources */,
 				44E1389F277E8F3500022B72 /* LibreBaskerville-Regular.ttf in Resources */,
 				44E1389D277E8F3500022B72 /* LibreBaskerville-Bold.ttf in Resources */,
-				44E138C0278163AB00022B72 /* Bitter-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +413,6 @@
 				44E13898277E7C8400022B72 /* HomeViewModel.swift in Sources */,
 				44E13866277A67D900022B72 /* CollexionApp.swift in Sources */,
 				44E138AB277FC13B00022B72 /* CollexionService.swift in Sources */,
-				4418F32C27866F7F00E0692F /* UploadState.swift in Sources */,
 				44E138C42785514700022B72 /* AsyncRelay.swift in Sources */,
 				44E138B42780358600022B72 /* MainRouter.swift in Sources */,
 				44E138B12780336300022B72 /* HomeRouter.swift in Sources */,
