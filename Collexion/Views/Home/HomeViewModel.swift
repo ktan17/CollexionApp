@@ -19,29 +19,20 @@ class HomeViewModel: ObservableObject {
   
   @Published var words = [Word]()
   @Published var shouldShowEditor = false
-  let addWordAction: () -> Void
+  private(set) var addWordAction: () -> Void = {}
   
   // MARK: - Private properties
   
   private let deps: Deps
-  private var cancellables = Set<AnyCancellable>()
   
   // MARK: - Initializers
   
   init(deps: Deps) {
     self.deps = deps
     
-    let relay = PassthroughSubject<Void, Never>()
-    addWordAction = {
-      relay.send()
-    }
-    
-    // Need to use a relay because of a circular dependency between
-    // addWordAction and self
-    relay.sink { [weak self] in
+    addWordAction = { [weak self] in
       self?.shouldShowEditor = true
     }
-    .store(in: &cancellables)
     
     Task { [weak self] in
       await self?.bindWords(to: await deps.collexionService.words)

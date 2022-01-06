@@ -64,13 +64,6 @@ struct HomeView: View {
   init(viewModel: ObservedObject<HomeViewModel>, router: HomeRouter) {
     _viewModel = viewModel
     self.router = router
-    
-    UINavigationBar.appearance().largeTitleTextAttributes = [
-      .font: Theme.FontStyle.largeTitle.uiFont
-    ]
-    UINavigationBar.appearance().titleTextAttributes = [
-      .font: Theme.FontStyle.title2.uiFont
-    ]
   }
 }
 

@@ -14,4 +14,13 @@ struct CollexionApp: App {
       MainTabView()
     }
   }
+  
+  init() {
+    UINavigationBar.appearance().largeTitleTextAttributes = [
+      .font: Theme.FontStyle.largeTitle.uiFont
+    ]
+    UINavigationBar.appearance().titleTextAttributes = [
+      .font: Theme.FontStyle.title2.uiFont
+    ]
+  }
 }

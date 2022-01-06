@@ -31,8 +31,10 @@ actor CollexionService: CollexionServiceProtocol {
     }
   }
   
-  func add(word: Word) async {
-    let currentValue = await wordsSubject.currentValue
-    await wordsSubject.send(currentValue + [word])
+  func add(word: Word) async throws {
+    let newValue = await wordsSubject.currentValue + [word]
+    let object = try PropertyListEncoder().encode(newValue)
+    UserDefaults.standard.set(object, forKey: Constant.defaultsKey)
+    await wordsSubject.send(newValue)
   }
 }

@@ -15,7 +15,7 @@ class EditWordViewModel: ObservableObject {
   private enum Constant {
     static let titleCharacterLimit = 45
     static let definitionCharacterLimit = 250
-    static let focusDelay: TimeInterval = 0.5
+    static let focusDelayNanoseconds: UInt64 = 500_000_000
   }
   
   // MARK: - Deps
@@ -34,9 +34,13 @@ class EditWordViewModel: ObservableObject {
   @Published var definition: String
   @Published var partOfSpeech: PartOfSpeech
   @Published var isFocused = false
-  let onAppear: () -> Void
-  let cancelAction: () -> Void
-  let addAction: () -> Void
+  @Published var isUploading = false
+  @Published var isPresentingAlert = false
+  @Published var uploadError: Error?
+  private(set) var onAppear: () -> Void = {}
+  private(set) var cancelAction: () -> Void = {}
+  private(set) var addAction: () -> Void = {}
+  private(set) var dismissAlertAction: () -> Void = {}
   let titleValidator: (String) -> String?
   let definitionValidator: (String) -> String?
   
@@ -52,51 +56,6 @@ class EditWordViewModel: ObservableObject {
     self.title = deps.title
     self.definition = deps.definition
     self.partOfSpeech = deps.partOfSpeech
-    
-    // Need to use a relay because of a circular dependency between
-    // onAppear and self
-    let appearRelay = PassthroughSubject<Void, Never>()
-    onAppear = {
-      appearRelay.send()
-    }
-    defer {
-      appearRelay
-        .first()
-        .sink { [weak self] in
-          DispatchQueue.main.asyncAfter(deadline: .now() + Constant.focusDelay) { [weak self] in
-            self?.isFocused = true
-          }
-        }
-        .store(in: &cancellables)
-    }
-    
-    cancelAction = {
-      deps.isPresented.wrappedValue = false
-    }
-    
-    let addRelay = PassthroughSubject<Void, Never>()
-    addAction = {
-      addRelay.send()
-    }
-    defer {
-      addRelay
-        .first()
-        .sink { [weak self] in
-          guard let self = self else { return }
-          let newWord = Word(
-            id: UUID().uuidString,
-            title: self.title,
-            definition: self.definition,
-            partOfSpeech: self.partOfSpeech,
-            timestamp: .now
-          )
-          Task { [weak self, deps] in
-            await deps.collexionService.add(word: newWord)
-            await self?.dismiss()
-          }
-        }
-        .store(in: &cancellables)
-    }
     
     titleValidator = { candidate in
       let trimmed = candidate.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -115,13 +74,52 @@ class EditWordViewModel: ObservableObject {
       }
       return nil
     }
-  }
-  
-  // MARK: - Helper functions
-  
-  @MainActor
-  private func dismiss() {
-    deps.isPresented.wrappedValue = false
+    
+    onAppear = { [weak self] in
+      Task { [weak self] in
+        try? await Task.sleep(nanoseconds: Constant.focusDelayNanoseconds)
+        await MainActor.run { [weak self] in
+          self?.isFocused = true
+        }
+      }
+    }
+    
+    cancelAction = {
+      deps.isPresented.wrappedValue = false
+    }
+    
+    addAction = { [weak self] in
+      guard let self = self else { return }
+      self.isUploading = true
+      
+      let newWord = Word(
+        id: UUID().uuidString,
+        title: self.title,
+        definition: self.definition,
+        partOfSpeech: self.partOfSpeech,
+        timestamp: .now
+      )
+      Task { [weak self, deps] in
+        guard let self = self else { return }
+        do {
+          try await deps.collexionService.add(word: newWord)
+          await MainActor.run {
+            self.isUploading = false
+            deps.isPresented.wrappedValue = false
+          }
+        } catch {
+          await MainActor.run {
+            self.isUploading = false
+            self.isPresentingAlert = true
+            self.uploadError = error
+          }
+        }
+      }
+    }
+    
+    dismissAlertAction = { [weak self] in
+      self?.isPresentingAlert = false
+    }
   }
   
 }

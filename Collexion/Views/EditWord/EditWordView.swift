@@ -12,14 +12,14 @@ struct EditWordView: View {
   // MARK: - Constant
   
   private enum Constant {
-    enum Title {
-      static let placeholder = "word"
-    }
-    enum Definition {
-      static let placeholder = "Definition"
-    }
+    static let titlePlaceholder = "word"
+    static let definitionPlaceholder = "Definition"
     static let navigationTitle = "New Word"
     static let partOfSpeechTitle = "Part of Speech"
+    static let alertTitle = "Failed to Upload"
+    static let cancelTitle = "Cancel"
+    static let addTitle = "Add"
+    static let dismissTitle = "Dismiss"
   }
   
   // MARK: - Properties
@@ -32,7 +32,7 @@ struct EditWordView: View {
       List {
         Section {
           ExpandingTextView(
-            placeholder: Constant.Title.placeholder,
+            placeholder: Constant.titlePlaceholder,
             text: $viewModel.title,
             validator: viewModel.titleValidator
           )
@@ -46,11 +46,12 @@ struct EditWordView: View {
             isFocused = focused
           }
           ExpandingTextView(
-            placeholder: Constant.Definition.placeholder,
+            placeholder: Constant.definitionPlaceholder,
             text: $viewModel.definition,
             validator: viewModel.definitionValidator
           )
           .themedFont(.body)
+          .textInputAutocapitalization(.never)
           .padding(.bottom, theme.smallPadding)
         }
         Section {
@@ -68,12 +69,32 @@ struct EditWordView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
-          Button(action: viewModel.cancelAction, label: { Text("Cancel") })
+          Button(
+            action: viewModel.cancelAction,
+            label: { Text(Constant.cancelTitle) }
+          )
         }
         ToolbarItem(placement: .confirmationAction) {
-          Button(action: viewModel.addAction, label: { Text("Add") })
+          Button(
+            action: viewModel.addAction,
+            label: { Text(Constant.addTitle) }
+          )
         }
       }
+      .alert(
+        Constant.alertTitle,
+        isPresented: $viewModel.isPresentingAlert,
+        presenting: viewModel.uploadError,
+        actions: { _ in
+          Button(
+            action: viewModel.dismissAlertAction,
+            label: { Text(Constant.dismissTitle) }
+          )
+        },
+        message: { error in
+          error.map { Text($0.localizedDescription) }
+        }
+      )
     }
   }
   

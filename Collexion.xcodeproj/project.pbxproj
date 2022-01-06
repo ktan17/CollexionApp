@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4418F32C27866F7F00E0692F /* UploadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418F32B27866F7F00E0692F /* UploadState.swift */; };
 		44E13866277A67D900022B72 /* CollexionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E13865277A67D900022B72 /* CollexionApp.swift */; };
 		44E13868277A67D900022B72 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E13867277A67D900022B72 /* MainTabView.swift */; };
 		44E1386A277A67D900022B72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44E13869277A67D900022B72 /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4418F32B27866F7F00E0692F /* UploadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadState.swift; sourceTree = "<group>"; };
 		44E13862277A67D900022B72 /* Collexion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Collexion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44E13865277A67D900022B72 /* CollexionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollexionApp.swift; sourceTree = "<group>"; };
 		44E13867277A67D900022B72 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				44E138A8277FA40900022B72 /* ThemedFont.swift */,
 				44E138B7278039AE00022B72 /* Router.swift */,
 				44E138BD2780F5A500022B72 /* ExpandingTextView.swift */,
+				4418F32B27866F7F00E0692F /* UploadState.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				44E13898277E7C8400022B72 /* HomeViewModel.swift in Sources */,
 				44E13866277A67D900022B72 /* CollexionApp.swift in Sources */,
 				44E138AB277FC13B00022B72 /* CollexionService.swift in Sources */,
+				4418F32C27866F7F00E0692F /* UploadState.swift in Sources */,
 				44E138C42785514700022B72 /* AsyncRelay.swift in Sources */,
 				44E138B42780358600022B72 /* MainRouter.swift in Sources */,
 				44E138B12780336300022B72 /* HomeRouter.swift in Sources */,
