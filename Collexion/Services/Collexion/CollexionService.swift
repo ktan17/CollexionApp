@@ -18,7 +18,7 @@ actor CollexionService: CollexionServiceProtocol {
   var words: AsyncStream<[Word]> {
     get async { wordsSubject.stream }
   }
-  private let wordsSubject = AsyncSubject<[Word]>(value: [])
+  private let wordsSubject = AsyncCurrentValueSubject<[Word]>(value: [])
   
   init() {
     Task { [wordsSubject] in

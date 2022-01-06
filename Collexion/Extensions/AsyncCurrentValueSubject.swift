@@ -1,13 +1,13 @@
 //
-//  AsyncRelay.swift
+//  AsyncCurrentValueSubject.swift
 //  Collexion
 //
 //  Created by Kevin Tan on 1/4/22.
 //
 
-import Foundation
+import Combine
 
-actor AsyncSubject<Element> {
+actor AsyncCurrentValueSubject<Element> {
   let stream: AsyncStream<Element>
   private(set) var currentValue: Element
   private let input: (Element) -> Void

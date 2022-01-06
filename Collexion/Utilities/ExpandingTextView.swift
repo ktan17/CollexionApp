@@ -14,6 +14,8 @@ struct ExpandingTextView: View {
   
   private enum Constant {
     static let editorInset: CGFloat = 8
+    static let placeholderVerticalInset: CGFloat = 8
+    static let placeholderHorizontalInset: CGFloat = 5
   }
   
   var placeholder: String
@@ -25,8 +27,8 @@ struct ExpandingTextView: View {
       if text.isEmpty {
         Text(placeholder)
           .foregroundColor(.gray)
-          .padding([.top, .bottom], 8)
-          .padding([.leading, .trailing], 5)
+          .padding([.top, .bottom], Constant.placeholderVerticalInset)
+          .padding([.leading, .trailing], Constant.placeholderHorizontalInset)
       }
       TextEditor(text: $text)
       Text(text)
