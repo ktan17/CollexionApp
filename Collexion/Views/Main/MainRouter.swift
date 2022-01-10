@@ -18,7 +18,7 @@ class MainRouter: Router {
     case .home:
       let viewModel = ObservedObject(
         wrappedValue: HomeViewModel(
-          deps: .init(collexionService: self.dependencies.collexionService)
+          deps: .init(collexionService: dependencies.collexionService)
         )
       )
       let router = HomeRouter(viewModel: viewModel)
