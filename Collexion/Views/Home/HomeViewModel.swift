@@ -17,8 +17,8 @@ class HomeViewModel: ObservableObject {
   
   // MARK: - Outputs
   
-  @Published var words = [Word]()
   @Published var shouldShowEditor = false
+  @Published private(set) var words = [Word]()
   private(set) var addWordAction: () -> Void = {}
   
   // MARK: - Private properties

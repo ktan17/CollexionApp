@@ -33,11 +33,11 @@ class EditWordViewModel: ObservableObject {
   @Published var title: String
   @Published var definition: String
   @Published var partOfSpeech: PartOfSpeech?
-  @Published var isFocused = false
-  @Published var isAddButtonDisabled = true
-  @Published var isUploading = false
   @Published var isPresentingAlert = false
-  @Published var uploadError: Error?
+  @Published private(set) var isAddButtonDisabled = true
+  @Published private(set) var isFocused = false
+  @Published private(set) var isUploading = false
+  @Published private(set) var uploadError: Error?
   private(set) var onAppear: () -> Void = {}
   private(set) var cancelAction: () -> Void = {}
   private(set) var addAction: () -> Void = {}
