@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
   private let router = MainRouter()
-  
+
   var body: some View {
     TabView {
       router.destination(for: .home)

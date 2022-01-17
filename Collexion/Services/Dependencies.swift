@@ -8,17 +8,17 @@
 import Foundation
 
 class Dependencies {
-  
+
   // MARK: - Singleton pattern
-  
+
   static let shared = Dependencies()
-  
+
   private init() {
     collexionService = CollexionService()
   }
-  
+
   // MARK: - Services
-  
+
   let collexionService: CollexionServiceProtocol
-  
+
 }

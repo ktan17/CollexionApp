@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct EditWordView: View {
-  
+
   // MARK: - Constant
-  
+
   private enum Constant {
     static let titlePlaceholder = "word"
     static let definitionPlaceholder = "Definition"
@@ -21,12 +21,12 @@ struct EditWordView: View {
     static let addTitle = "Add"
     static let dismissTitle = "Dismiss"
   }
-  
+
   // MARK: - Properties
-  
+
   @ObservedObject private var viewModel: EditWordViewModel
   @FocusState private var isFocused: Bool
-  
+
   var body: some View {
     NavigationView {
       List {
@@ -98,11 +98,11 @@ struct EditWordView: View {
       )
     }
   }
-  
+
   // MARK: - Initializers
-  
+
   init(viewModel: ObservedObject<EditWordViewModel>) {
     _viewModel = viewModel
   }
-  
+
 }

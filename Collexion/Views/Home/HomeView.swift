@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct HomeView: View {
-  
+
   // MARK: - Constant
-  
+
   private enum Constant {
     static let title = "Your Collexion"
     static let addWordImageName = "square.and.pencil"
   }
-  
+
   // MARK: - Properties
-  
+
   @ObservedObject private var viewModel: HomeViewModel
   private let router: HomeRouter
-  
+
   var body: some View {
     NavigationView {
       List(viewModel.words) { word in
@@ -58,9 +58,9 @@ struct HomeView: View {
       }
     }
   }
-  
+
   // MARK: - Initializers
-  
+
   init(viewModel: ObservedObject<HomeViewModel>, router: HomeRouter) {
     _viewModel = viewModel
     self.router = router

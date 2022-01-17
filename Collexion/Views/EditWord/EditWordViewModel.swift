@@ -9,17 +9,17 @@ import Combine
 import SwiftUI
 
 class EditWordViewModel: ObservableObject {
-  
+
   // MARK: - Constant
-  
+
   private enum Constant {
     static let titleCharacterLimit = 45
     static let definitionCharacterLimit = 250
     static let focusDelayNanoseconds: UInt64 = 500_000_000
   }
-  
+
   // MARK: - Deps
-  
+
   struct Deps {
     let title: String = ""
     let definition: String = ""
@@ -27,9 +27,9 @@ class EditWordViewModel: ObservableObject {
     let isPresented: Binding<Bool>
     let collexionService: CollexionServiceProtocol
   }
-  
+
   // MARK: - Outputs
-  
+
   @Published var title: String
   @Published var definition: String
   @Published var partOfSpeech: PartOfSpeech?
@@ -44,22 +44,22 @@ class EditWordViewModel: ObservableObject {
   private(set) var dismissAlertAction: () -> Void = {}
   let titleValidator: (String) -> String?
   let definitionValidator: (String) -> String?
-  
+
   // MARK: - Private properties
-  
+
   private let deps: Deps
   private var cancellables = Set<AnyCancellable>()
-  
+
   // MARK: - Initializers
-  
+
   init(deps: Deps) {
     self.deps = deps
     self.title = deps.title
     self.definition = deps.definition
     self.partOfSpeech = deps.partOfSpeech
-    
+
     // Text validation logic
-    
+
     titleValidator = { candidate in
       let trimmed = candidate.trimmingCharacters(in: .whitespacesAndNewlines)
       if trimmed.count > Constant.titleCharacterLimit {
@@ -70,16 +70,16 @@ class EditWordViewModel: ObservableObject {
         return nil
       }
     }
-    
+
     definitionValidator = { candidate in
       if candidate.count > Constant.definitionCharacterLimit {
         return String(candidate.prefix(Constant.definitionCharacterLimit))
       }
       return nil
     }
-    
+
     // Actions
-    
+
     onAppear = { [weak self] in
       Task { [weak self] in
         try? await Task.sleep(nanoseconds: Constant.focusDelayNanoseconds)
@@ -88,11 +88,11 @@ class EditWordViewModel: ObservableObject {
         }
       }
     }
-    
+
     cancelAction = {
       deps.isPresented.wrappedValue = false
     }
-    
+
     let uploadStateSubject = PassthroughSubject<UploadState, Never>()
     addAction = { [weak self] in
       guard let self = self,
@@ -100,7 +100,7 @@ class EditWordViewModel: ObservableObject {
         return
       }
       uploadStateSubject.send(.uploading)
-      
+
       let newWord = Word(
         id: UUID().uuidString,
         title: self.title,
@@ -120,13 +120,13 @@ class EditWordViewModel: ObservableObject {
         }
       }
     }
-    
+
     dismissAlertAction = { [weak self] in
       self?.isPresentingAlert = false
     }
-    
+
     // State drivers
-    
+
     uploadStateSubject
       .merge(with: Just(.idle))  // startWith
       .receive(on: DispatchQueue.main)
@@ -144,9 +144,10 @@ class EditWordViewModel: ObservableObject {
         }
       }
       .store(in: &cancellables)
-    
+
     $title
       .combineLatest($definition, $partOfSpeech)
+      .receive(on: DispatchQueue.main)
       .sink { [weak self] title, definition, partOfSpeech in
         self?.isAddButtonDisabled = (
           title.isEmpty || definition.isEmpty || partOfSpeech == nil
@@ -154,5 +155,5 @@ class EditWordViewModel: ObservableObject {
       }
       .store(in: &cancellables)
   }
-  
+
 }

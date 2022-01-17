@@ -10,7 +10,7 @@ import SwiftUI
 protocol Router {
   associatedtype Route
   associatedtype DestinationView: View
-  
+
   @ViewBuilder
   func destination(for route: Route) -> DestinationView
 }

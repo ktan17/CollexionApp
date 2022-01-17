@@ -8,18 +8,18 @@
 import Foundation
 
 actor CollexionService: CollexionServiceProtocol {
-  
+
   // MARK: - Constant
-  
+
   private enum Constant {
     static let defaultsKey = "com.ktan17.words"
   }
-  
+
   var words: AsyncStream<[Word]> {
     get async { wordsSubject.stream }
   }
   private let wordsSubject = AsyncCurrentValueSubject<[Word]>(value: [])
-  
+
   init() {
     Task { [wordsSubject] in
       // Load words from User Defaults
@@ -30,11 +30,12 @@ actor CollexionService: CollexionServiceProtocol {
       }
     }
   }
-  
+
   func add(word: Word) async throws {
     let newValue = await wordsSubject.currentValue + [word]
     let object = try PropertyListEncoder().encode(newValue)
     UserDefaults.standard.set(object, forKey: Constant.defaultsKey)
     await wordsSubject.send(newValue)
   }
+
 }

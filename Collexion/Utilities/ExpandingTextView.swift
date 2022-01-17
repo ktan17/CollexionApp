@@ -9,19 +9,19 @@ import Combine
 import SwiftUI
 
 struct ExpandingTextView: View {
-  
+
   // MARK: - Constant
-  
+
   private enum Constant {
     static let editorInset: CGFloat = 8
     static let placeholderVerticalInset: CGFloat = 8
     static let placeholderHorizontalInset: CGFloat = 5
   }
-  
+
   var placeholder: String
   @Binding var text: String
   var validator: ((String) -> String?)?
-  
+
   var body: some View {
     ZStack(alignment: .topLeading) {
       if text.isEmpty {
@@ -41,7 +41,7 @@ struct ExpandingTextView: View {
       }
     }
   }
-  
+
 }
 
 struct ExpandingTextView_Previews: PreviewProvider {

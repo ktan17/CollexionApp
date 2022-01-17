@@ -8,25 +8,25 @@
 import SwiftUI
 
 class HomeRouter: Router {
-  
+
   // MARK: - Route
-  
+
   enum Route {
     case addWord
   }
-  
+
   // MARK: - Private properties
-  
+
   @ObservedObject private var viewModel: HomeViewModel
-  
+
   // MARK: - Initializers
-  
+
   init(viewModel: ObservedObject<HomeViewModel>) {
     self._viewModel = viewModel
   }
-  
+
   // MARK: - Router
-  
+
   @ViewBuilder
   func destination(for route: Route) -> some View {
     switch route {
@@ -42,5 +42,5 @@ class HomeRouter: Router {
       EditWordView(viewModel: viewModel)
     }
   }
-  
+
 }
